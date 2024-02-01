@@ -1,18 +1,21 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import Navbar from "./component/Navbar";
+
+import Home1 from "./component/Home";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [connect, setconnect] = useState(false);
+  function onhandleClick(){
+    console.log("pressed");
+  }
   return (
    <div className="flex justify-center items-center p-20 bg-teal-700 h-screen w-screen">
     <div className="flex flex-col h-full w-full  bg-blue-600  p-4 justify-between">
-      <Navbar />
-      <div className="flex w-full">
-        <input type="text" placeholder="enter your task "   className="w-11/12"></input>
-        <button type="submit" className="w-1/12">+</button>
-      </div>
+    {connect?<Home1 />:<button onClick={onhandleClick} className="text-5xl flex justify-center items-center ">connect</button>}
+      
     </div>
    </div>
   );
