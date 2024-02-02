@@ -1,22 +1,21 @@
 import React from 'react';
 import Navbar from "./Navbar";
 import Taskc from "./Taskc";
-const Home1 = ({ addtask, setInput, input ,tasks}) => {
-  
+
+const Home1 = ({ addtask, setInput, input, tasks }) => {
+  console.log("jdwv v " + tasks);
+
   return (
     <div>
       <Navbar />
       <div>
         <ul>
-        {
-          tasks.map(item =>{
-            
+          {tasks.map(item => (
             <Taskc
-            key = {item.id}
-            taskText = {item.taskText}
+              key={item.id}
+              tasktext={item.taskText}
             />
-          })
-        }
+          ))}
         </ul>
       </div>
       <form className="flex w-full">

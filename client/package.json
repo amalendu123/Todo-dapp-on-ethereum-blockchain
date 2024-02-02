@@ -9,12 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.7.2",
-    "ethers": "^6.10.0",
+    "@ethersproject/providers": "^5.0.2",
+    "ethers": "^5.7.2",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.0.1"
+    "react-icons": "^5.0.1",
+    "web3": "^4.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
