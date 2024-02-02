@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
-import { Web3Provider } from '@ethersproject/providers';
+import { Cormorant_Unicase, Inter } from "next/font/google";
+import { BrowserProvider, parseUnits } from "ethers";
 import taskAbi from "../../backend/artifacts/contracts/TestContract.sol/taskcontract.json"
 import Home1 from "./component/Home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from 'ethers';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,6 +15,13 @@ export default function Home() {
   const [currentAccount, setCurrentAccount] = useState('');
   const [input,setInput] = useState('')
   const [tasks,settasks] = useState([])
+
+  useEffect(()=>{
+    connectWallet();
+    getallTasks();
+    console.log(tasks)
+    console.log("jdnv jdn");
+  },[])
   const connectWallet = async () => {
     try {
       const { ethereum } = window;
@@ -41,17 +48,35 @@ export default function Home() {
       console.error(error);
     }
   }
+  const getallTasks = async () =>{
+    try{
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum)
+        const signer = provider.getSigner();
+        const TaskContract = new ethers.Contract(
+          contractAddress,
+          taskAbi.abi,
+          signer
+        );
+        let allTasks = await TaskContract.getMyTasks();
+        settasks(allTasks)
+        console.log(tasks)
+    }else{
+      console.log("object doesnot exist ");
+    }
+  }catch(error){
+
+    }
+  }
   const addTask = async (e) => {
     e.preventDefault();
-    let task = {
-      taskText: input,
-      isDeleted: false
-    };
+    let task = { taskText: input, isDeleted: false };
   
     try {
       const { ethereum } = window;
       if (ethereum) {
-        const provider = new Web3Provider(ethereum);
+        const provider = new ethers.BrowserProvider(window.ethereum)
         const signer = provider.getSigner();
         const TaskContract = new ethers.Contract(
           contractAddress,
@@ -59,26 +84,30 @@ export default function Home() {
           signer
         );
   
+        // Assuming addTask method returns a transaction object
         const tx = await TaskContract.addTask(task.taskText, task.isDeleted);
   
         // Wait for the transaction to be mined
         await tx.wait();
   
+        // Update the local state with the new task
         settasks([...tasks, task]);
       } else {
         console.log("ethereum object does not exist");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+  
+  
   
 
   return (
     <div className="flex justify-center items-center p-20 bg-teal-700 h-screen w-screen">
       <div className="flex flex-col h-full w-full bg-blue-600 p-4 justify-between">
       {connect ? (
-        <Home1 addtask={addTask} setInput={setInput} input={input} />
+        <Home1 addtask={addTask} setInput={setInput} input={input} tasks ={tasks}/>
       ) : (
         <button onClick={connectWallet} className="text-5xl flex justify-center items-center bg-white">
           Connect

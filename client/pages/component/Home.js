@@ -1,10 +1,24 @@
 import React from 'react';
 import Navbar from "./Navbar";
-
-const Home1 = ({ addtask, setInput, input }) => {
+import Taskc from "./Taskc";
+const Home1 = ({ addtask, setInput, input ,tasks}) => {
+  
   return (
     <div>
       <Navbar />
+      <div>
+        <ul>
+        {
+          tasks.map(item =>{
+            
+            <Taskc
+            key = {item.id}
+            taskText = {item.taskText}
+            />
+          })
+        }
+        </ul>
+      </div>
       <form className="flex w-full">
         <input
           type="text"
