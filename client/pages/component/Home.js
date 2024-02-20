@@ -2,9 +2,7 @@ import React from 'react';
 import Navbar from "./Navbar";
 import Taskc from "./Taskc";
 
-const Home1 = ({ addtask, setInput, input, tasks }) => {
-  console.log("jdwv v " + tasks);
-
+const Home = ({ addtask, setInput, input, tasks }) => {
   return (
     <div>
       <Navbar />
@@ -34,4 +32,4 @@ const Home1 = ({ addtask, setInput, input, tasks }) => {
   );
 };
 
-export default Home1;
+export default Home;
